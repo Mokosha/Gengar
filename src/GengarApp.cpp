@@ -47,9 +47,9 @@ void GengarApp::setup()
   mCamera.setPerspective(45.0f, getWindowAspectRatio(), 0.1f, 1000.0f);
   mCamera.lookAt(vec3(0), vec3(0, 0, -3));
 
-  mEarthSphere = Sphere(vec3(0, 0, -3), 1);
   mEarth = ci::gl::Batch::create(
-    ci::geom::Sphere(mEarthSphere).subdivisions(50),
+    ci::geom::Plane().subdivisions(ci::vec2(10, 10)).origin(vec3(0, 0, -1))
+    .size(ci::vec2(2.f*(sqrtf(2.f) - 1), 2.f*(sqrtf(2.f) - 1))).normal(vec3(0, 0, 1)),
     ci::gl::getStockShader(ci::gl::ShaderDef().texture()));
   mEarthTex = ci::gl::Texture::create(loadImage(loadResource(EARTH_TEX_RES)));
 
@@ -107,8 +107,13 @@ void GengarApp::draw()
   ci::gl::clear(Color(0, 0, 0));
 
   ci::gl::setMatrices(mCamera);
-  mEarthTex->bind();
-  mEarth->draw();
+
+  for (int i = 0; i < 8; ++i) {
+    ci::gl::ScopedModelMatrix scpModelMtx;
+    ci::gl::rotate(static_cast<float>(i)* M_PI / 4, 0.f, 1.f, 0.f);
+    mEarthTex->bind();
+    mEarth->draw();
+  }
 }
 
 CINDER_APP(GengarApp, RendererGl, [](App::Settings *settings) {
