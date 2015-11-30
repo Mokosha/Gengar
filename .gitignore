@@ -1,0 +1,9 @@
+# Visual studio intermediate crap...
+vc2013/.vs/**
+vc2013/Release/**
+vc2013/Debug/**
+vc2013/Resources.aps
+vc2013/Gengar.opensdf
+vc2013/Gengar.sdf
+vc2013/Gengar.v12.suo
+vc2013/Gengar.vcxproj.user
